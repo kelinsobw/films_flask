@@ -2,15 +2,22 @@ import os
 import hashlib
 import redis as redis
 from flask import Flask, request, render_template, Response
+#from flask.ext.sqlalchemy import SQLAlchemy
 
 
 app = Flask(__name__)
+app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://localhost/media'
+#db = SQLAlchemy(app)
 
 salt = os.getenv("SECRET", "S0me_seCr3T-keY")
 
 
 redis_host = os.getenv("REDIS_HOST", "localhost")
 redis_client = redis.Redis(host=redis_host, port=6379, db=0)
+
+
+#class Media(db.Model):
+#    pass
 
 
 def hash_password(password: str) -> bytes:
